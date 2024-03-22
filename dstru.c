@@ -330,22 +330,66 @@ void playerTurn(char brd[][6], int size, int turn) {
 	}
 }
 
-int winCondition() {
+int winCondition(char brd[][6]) {
+
+
+	if ((brd[0][0] == 'X' && brd[1][1] == 'X' && brd[0][2] == 'X' && brd[2][0] == 'X' && brd[2][2]=='X') && 
+		(brd[3][3] == 'X' && brd[3][5] == 'X' && brd[4][4] == 'X' && brd[5][3] == 'X' && brd[5][5]=='X')) {
+		return 2;
+	}
+
 	
 	
+	if ((brd[0][4] == 'X' && brd[1][3] == 'X' && brd[1][4] == 'X' && brd[1][5] == 'X' && brd[2][4]=='X') && 
+		(brd[3][0] == 'X' && brd[4][0] == 'X' && brd[5][0] == 'X' && brd[3][2] == 'X' && brd[4][2]=='X' && brd[5][2] == 'X')) {
+		return 2;
+	}
+
+	if ((brd[0][0] == 'O' && brd[1][1] == 'O' && brd[0][2] == 'O' && brd[2][0] == 'O' && brd[2][2]== 'O') && 
+		(brd[3][3] == 'O' && brd[3][5] == 'O' && brd[4][4] == 'O' && brd[5][3] == 'O' && brd[5][5]=='O')) {
+		return 1;
+	}
+
+	if ((brd[0][4] == 'O' && brd[1][3] == 'O' && brd[1][4] == 'O' && brd[1][5] == 'O' && brd[2][4]=='O') && 
+		(brd[3][0] == 'O' && brd[4][0] == 'O' && brd[5][0] == 'O' && brd[3][2] == 'O' && brd[4][2]=='O' && brd[5][2] == 'O')) {
+		return 1;
+	} 
 	
+	else {
+		return 0;
+	}
+
 }
 
+int full(char brd[][6], int size) {
+	int i, j;
+	int ctr = 0;
+	for(i = 0; i < size; i++) {
+		for (j = 0; j < size; j++) {
+			if (brd[i][j] == 'X' || brd[i][j] == 'O')
+				ctr++;
+		}
+	}
+	if (ctr == 36)
+		return 1;
+	else
+		return 0;
+}
 int main() {
 	char brd[6][6];
 	int turn = 1;
 	initialize(brd, 6);
 	board(brd, 6);
-	while (turn < 10) {
+	while (!winCondition(brd) && !full(brd, 6)) {
 		playerTurn(brd, 6, turn);
 		board(brd, 6);
 		turn++;
 	}
-	
+	if (winCondition(brd) == 1)
+		printf("O wins");
+	if (winCondition(brd) == 2)
+		printf("X wins");
+	else
+		printf("Tie");
 	return 0;
 }
